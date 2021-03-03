@@ -41,6 +41,7 @@ import (
 	"github.com/dapr/components-contrib/state/gcp/firestore"
 	"github.com/dapr/components-contrib/state/hashicorp/consul"
 	"github.com/dapr/components-contrib/state/hazelcast"
+	state_localstorage "github.com/dapr/components-contrib/state/localstorage"
 	"github.com/dapr/components-contrib/state/memcached"
 	"github.com/dapr/components-contrib/state/mongodb"
 	state_mysql "github.com/dapr/components-contrib/state/mysql"
@@ -156,6 +157,9 @@ func main() {
 			}),
 		),
 		runtime.WithStates(
+			state_loader.New("localstorage", func() state.Store {
+				return state_localstorage.NewLocalStorageStore(logContrib)
+			}),
 			state_loader.New("redis", func() state.Store {
 				return state_redis.NewRedisStateStore(logContrib)
 			}),
